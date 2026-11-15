@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101827">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Решатель">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Решатель — пошаговое решение математических задач без постоянного подключения к интернету.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+  <link rel="stylesheet" href="styles.css?v=9">
+  <title>Решатель</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Решатель — главная">
+        <span class="brand-mark">∑</span><span>Решатель</span>
+      </a>
+      <div class="top-actions">
+        <span id="engineStatus" class="status"><i></i><span>Подготовка вычислителя…</span></span>
+        <button id="installBtn" class="install-btn" hidden>Установить</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="intro">
+        <div class="eyebrow">МАТЕМАТИКА ПОНЯТНО</div>
+        <h1>Разберём задачу <span>по шагам.</span></h1>
+        <p>Введи выражение, уравнение, неравенство или систему — получи решение и объяснение каждого этапа.</p>
+      </section>
+
+      <section class="input-card panel" aria-label="Ввод задачи">
+        <label for="taskInput">ТВОЯ ЗАДАЧА</label>
+        <textarea id="taskInput" rows="3" maxlength="220" spellcheck="false" autocapitalize="off" autocomplete="off" inputmode="text" enterkeyhint="enter" aria-label="Поле ввода математической задачи" placeholder="Например: 2x + 3 = 11 или sin(x) = 0"></textarea>
+        <section class="math-keyboard" aria-label="Математическая клавиатура" id="mathKeyboard">
+          <div class="keyboard-tabs" role="tablist" aria-label="Раздел клавиатуры">
+            <button type="button" class="keyboard-tab active" id="numbersTab" role="tab" aria-selected="true" aria-controls="numbersPanel" data-tab="numbers">123 <span>Числа</span></button>
+            <button type="button" class="keyboard-tab" id="lettersTab" role="tab" aria-selected="false" aria-controls="lettersPanel" data-tab="letters">x y <span>Буквы</span></button>
+          </div>
+          <div class="keyboard-page active" id="numbersPanel" role="tabpanel" aria-labelledby="numbersTab">
+            <div class="keypad-main">
+              <button type="button" class="math-key" data-insert="7">7</button><button type="button" class="math-key" data-insert="8">8</button><button type="button" class="math-key" data-insert="9">9</button><button type="button" class="math-key key-operator" data-insert="\div">÷</button><button type="button" class="math-key key-utility" data-action="backspace" aria-label="Удалить символ">⌫</button>
+              <button type="button" class="math-key" data-insert="4">4</button><button type="button" class="math-key" data-insert="5">5</button><button type="button" class="math-key" data-insert="6">6</button><button type="button" class="math-key key-operator" data-insert="\times">×</button><button type="button" class="math-key key-bracket" data-insert="(">(</button>
+              <button type="button" class="math-key" data-insert="1">1</button><button type="button" class="math-key" data-insert="2">2</button><button type="button" class="math-key" data-insert="3">3</button><button type="button" class="math-key key-operator" data-insert="-">−</button><button type="button" class="math-key key-bracket" data-insert=")">)</button>
+              <button type="button" class="math-key" data-insert="0">0</button><button type="button" class="math-key" data-insert=".">.</button><button type="button" class="math-key key-variable" data-insert="x">x</button><button type="button" class="math-key key-operator" data-insert="+">+</button><button type="button" class="math-key key-operator" data-insert="=">=</button>
+            </div>
+            <div class="keyboard-functions">
+              <button type="button" class="math-key function-key" data-insert="\sqrt{#@}" aria-label="Квадратный корень">√</button>
+              <button type="button" class="math-key function-key" data-insert="\pi" aria-label="Число пи">π</button>
+              <button type="button" class="math-key function-key" data-insert="\sin(#@)">sin</button>
+              <button type="button" class="math-key function-key" data-insert="\cos(#@)">cos</button>
+              <button type="button" class="math-key function-key" data-insert="\tan(#@)">tg</button>
+              <button type="button" class="math-key function-key" data-insert="\log(#@)">log</button>
+              <button type="button" class="math-key function-key" data-insert="\sqrt[#?]{#@}" aria-label="Корень n-й степени">ⁿ√</button>
+              <button type="button" class="math-key function-key" data-insert="#@^{#?}" aria-label="Степень">xⁿ</button>
+              <button type="button" class="math-key function-key" data-insert="\left|#@\right|" aria-label="Модуль">|x|</button>
+            </div>
+          </div>
+          <div class="keyboard-page" id="lettersPanel" role="tabpanel" aria-labelledby="lettersTab" hidden>
+            <div class="keypad-letters">
+              <button type="button" class="math-key key-variable" data-letter="a" data-insert="a">a</button>
+              <button type="button" class="math-key key-variable" data-letter="b" data-insert="b">b</button>
+              <button type="button" class="math-key key-variable" data-letter="c" data-insert="c">c</button>
+              <button type="button" class="math-key key-variable" data-letter="d" data-insert="d">d</button>
+              <button type="button" class="math-key key-variable" data-letter="e" data-insert="e">e</button>
+              <button type="button" class="math-key key-variable" data-letter="f" data-insert="f">f</button>
+              <button type="button" class="math-key key-variable" data-letter="g" data-insert="g">g</button>
+              <button type="button" class="math-key key-variable" data-letter="h" data-insert="h">h</button>
+              <button type="button" class="math-key key-variable" data-letter="i" data-insert="i">i</button>
+              <button type="button" class="math-key key-variable" data-letter="j" data-insert="j">j</button>
+              <button type="button" class="math-key key-variable" data-letter="k" data-insert="k">k</button>
+              <button type="button" class="math-key key-variable" data-letter="l" data-insert="l">l</button>
+              <button type="button" class="math-key key-variable" data-letter="m" data-insert="m">m</button>
+              <button type="button" class="math-key key-variable" data-letter="n" data-insert="n">n</button>
+              <button type="button" class="math-key key-variable" data-letter="o" data-insert="o">o</button>
+              <button type="button" class="math-key key-variable" data-letter="p" data-insert="p">p</button>
+              <button type="button" class="math-key key-variable" data-letter="q" data-insert="q">q</button>
+              <button type="button" class="math-key key-variable" data-letter="r" data-insert="r">r</button>
+              <button type="button" class="math-key key-variable" data-letter="s" data-insert="s">s</button>
+              <button type="button" class="math-key key-variable" data-letter="t" data-insert="t">t</button>
+              <button type="button" class="math-key key-variable" data-letter="u" data-insert="u">u</button>
+              <button type="button" class="math-key key-variable" data-letter="v" data-insert="v">v</button>
+              <button type="button" class="math-key key-variable" data-letter="w" data-insert="w">w</button>
+              <button type="button" class="math-key key-variable" data-letter="x" data-insert="x">x</button>
+              <button type="button" class="math-key key-variable" data-letter="y" data-insert="y">y</button>
+              <button type="button" class="math-key key-variable" data-letter="z" data-insert="z">z</button>
+              <button type="button" class="math-key key-operator" data-action="toggle-case" aria-label="Переключить регистр">⇧</button>
+              <button type="button" class="math-key key-operator" data-insert="=">=</button>
+              <button type="button" class="math-key key-operator" data-insert="+">+</button>
+              <button type="button" class="math-key key-operator" data-insert="-">−</button>
+              <button type="button" class="math-key key-operator" data-insert="\times">×</button>
+              <button type="button" class="math-key key-operator" data-insert="\div">÷</button>
+              <button type="button" class="math-key key-bracket" data-insert="(">(</button>
+              <button type="button" class="math-key key-bracket" data-insert=")">)</button>
+              <button type="button" class="math-key key-utility" data-action="backspace" aria-label="Удалить символ">⌫</button>
+            </div>
+            <div class="keyboard-functions keyboard-letter-functions">
+              <button type="button" class="math-key function-key" data-insert="#@^{#?}" aria-label="Степень">xⁿ</button>
+              <button type="button" class="math-key function-key" data-insert="#@_{#?}" aria-label="Индекс">xₙ</button>
+              <button type="button" class="math-key function-key" data-insert="\frac{#?}{#?}" aria-label="Дробь">a⁄b</button>
+              <button type="button" class="math-key function-key" data-insert="\sqrt{#@}" aria-label="Корень">√</button>
+              <button type="button" class="math-key function-key" data-insert="\pi">π</button>
+              <button type="button" class="math-key function-key" data-insert="\left|#@\right|" aria-label="Модуль">|x|</button>
+            </div>
+            <p class="keyboard-note">Можно использовать любые латинские переменные. Регистр букв различается: a и A — разные переменные.</p>
+          </div>
+          <button id="solveBtn" class="keyboard-solve" disabled><span>Решить задачу</span><span aria-hidden="true">↗</span></button>
+          <div class="keyboard-bottom"><span class="input-hint">Enter — новая строка · Ctrl + Enter — решить</span><div class="keyboard-bottom-actions"><button id="newlineBtn" class="keyboard-newline" type="button" aria-label="Вставить перенос строки">↵ Новая строка</button><button id="clearBtn" class="keyboard-clear" type="button">Очистить ввод</button></div></div>
+        </section>
+      </section>
+
+      <section id="resultArea" class="results" hidden>
+        <article class="answer-card panel">
+          <div class="answer-label"><span class="answer-dot"></span> ОТВЕТ</div>
+          <div id="answerText" class="answer-text">—</div>
+          <button id="copyBtn" class="copy-btn" type="button" aria-label="Скопировать ответ" title="Скопировать ответ">⧉</button>
+        </article>
+        <div class="steps-heading">
+          <div><div class="eyebrow">РАЗБОР</div><h2>Решение по шагам</h2></div>
+          <span id="stepCount" class="step-count"></span>
+        </div>
+        <div id="stepsList" class="steps-list"></div>
+        <div class="clarify-bar panel">
+          <div><strong>Нужно подробнее?</strong><span>Выбери шаг и открой дополнительное объяснение.</span></div>
+          <button id="clarifyBtn" class="button button-secondary" disabled>Уточнить шаг</button>
+        </div>
+      </section>
+
+      <section id="welcomeNote" class="welcome-note">
+        <div><strong>Начни с любой задачи</strong><p>Поддерживаются уравнения, неравенства, системы и математические выражения. Для тригонометрии учитываются общие решения с периодом.</p></div>
+      </section>
+    </main>
+    <footer><span>Решатель · версия 1.0</span><span id="networkNote">Вычисления выполняются на устройстве</span></footer>
+  </div>
+
+  <div id="clarifyModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-backdrop" data-close="1"></div>
+    <section class="modal-card panel">
+      <button id="closeModal" class="modal-close" aria-label="Закрыть">×</button>
+      <div class="eyebrow">ДОПОЛНИТЕЛЬНОЕ ОБЪЯСНЕНИЕ</div>
+      <h2 id="modalTitle">Уточнение шага</h2>
+      <div id="modalBody" class="modal-body"></div>
+      <button id="modalDone" class="button button-primary modal-done">Понятно</button>
+    </section>
+  </div>
+  <div id="installHelpModal" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="installHelpTitle">
+    <div class="modal-backdrop" data-install-close="1"></div>
+    <section class="modal-card panel">
+      <button id="closeInstallHelp" class="modal-close" aria-label="Закрыть">×</button>
+      <div class="eyebrow">УСТАНОВКА ПРИЛОЖЕНИЯ</div>
+      <h2 id="installHelpTitle">Добавить «Решатель» на главный экран</h2>
+      <div id="installHelpBody" class="modal-body"></div>
+      <button id="installHelpDone" class="button button-primary modal-done">Понятно</button>
+    </section>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script defer src="app.js?v=11"></script>
+</body>
+</html>
